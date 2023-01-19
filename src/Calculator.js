@@ -58,11 +58,17 @@ export default () => {
   const [result, setResult] = useState(null); //12 -> 14 ->(여기서 =을 또 누르면 +2가 또 되어야함)
   const [tempInput, setTempInput] = useState(null); //2
   const [tempOperator, setTempOperator] = useState(null); //+
+  const [isClickedOperator, setIsClickedOperator] = useState(false);
+  const [isClickedEqual, setIsClickedEqual] = useState(false);
+
+  //   const hasInput = input ? true : false;
+  const hasInput = !!input;
 
   const onPressNum = (num) => {
-    if (currentOperator) {
+    if (currentOperator && isClickedOperator) {
       setResult(input);
       setInput(num);
+      setIsClickedOperator(false);
     } else {
       // const newInput = input + num; // bad case '4' + '5' > 45가아니라 9가 됨
       // const newInput = `${input}${num}`; //good case
@@ -75,35 +81,47 @@ export default () => {
   const onPressOperator = (operator) => {
     if (operator !== '=') {
       setCurrentOperator(operator);
+      setIsClickedOperator(true);
+      setIsClickedEqual(false);
     } else {
       let finalResult = result;
-      switch (currentOperator) {
+      const finalInput = isClickedEqual ? tempInput : input;
+      const finalOperator = isClickedEqual ? tempOperator : currentOperator;
+      switch (finalOperator) {
         case '+':
-          finalResult = result + input;
+          finalResult = result + finalInput;
           break;
         case '-':
-          finalResult = result - input;
+          finalResult = result - finalInput;
           break;
         case '*':
-          finalResult = result * input;
+          finalResult = result * finalInput;
           break;
         case '/':
-          finalResult = result / input;
+          finalResult = result / finalInput;
           break;
         default:
           break;
       }
       setResult(finalResult);
       setInput(finalResult);
+      setTempInput(finalInput);
+      setCurrentOperator(null);
+      setTempOperator(finalOperator);
+      setIsClickedEqual(true);
     }
   };
 
   const onPressReset = () => {
-    setInput(0);
-    setCurrentOperator(null);
-    setResult(null);
-    setTempInput(null);
-    setTempOperator(null);
+    if (hasInput) {
+      setInput(0);
+    } else {
+      setInput(0);
+      setCurrentOperator(null);
+      setResult(null);
+      setTempInput(null);
+      setTempOperator(null);
+    }
   };
 
   return (
@@ -129,7 +147,7 @@ export default () => {
       <ButtonContainer>
         <Button
           type="reset"
-          text="AC"
+          text={hasInput ? 'C' : 'AC'}
           onPress={onPressReset}
           flex={3}
           //isSelected={false} //이런건 필요없음(어차피 안가면 undefined여서 false 처리되니까)
