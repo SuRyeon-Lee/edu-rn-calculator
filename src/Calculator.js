@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Text, View, TouchableOpacity } from 'react-native';
 
@@ -42,10 +42,36 @@ const ButtonContainer = styled.View`
   width: 100%;
 `;
 
+const InputContainer = styled.View`
+  width: 100%;
+  min-height: 50px;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+  background-color: ${COLOR.RESULT};
+  padding: 10px 5px;
+`;
+
 export default () => {
+  const [input, setInput] = useState(0); //2 -> 14
+  const [currentOperator, setCurrentOperator] = useState(null); //+ -> null
+  const [result, setResult] = useState(null); //12 -> 14 ->(여기서 =을 또 누르면 +2가 또 되어야함)
+  const [tempInput, setTempInput] = useState(null); //2
+  const [tempOperator, setTempOperator] = useState(null); //+
+
   return (
-    <View style={{ flex: 1, width: 250 }}>
+    <View
+      style={{
+        flex: 1,
+        width: 250,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       {/* 결과 */}
+      <InputContainer>
+        <Text style={{ color: 'white', fontSize: 35 }}>{input}</Text>
+      </InputContainer>
 
       {/* [AC ~ /] */}
       <ButtonContainer>
