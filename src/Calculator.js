@@ -57,9 +57,9 @@ export default () => {
   const {
     input,
     currentOperator,
-    result,
-    tempInput,
-    tempOperator,
+    // result,
+    // tempInput,
+    // tempOperator,
     hasInput,
     onPressNum,
     onPressOperator,
@@ -74,11 +74,16 @@ export default () => {
         justifyContent: 'center',
       }}
     >
-      <Text>input: {input}</Text>
-      <Text>currenetOperator: {currentOperator}</Text>
-      <Text>result: {result}</Text>
-      <Text>tempinput: {tempInput}</Text>
-      <Text>tempOperator: {tempOperator}</Text>
+      {/* 개발 환경에서만 볼 수 있도록 세팅 */}
+      {/* {__DEV__ && (
+        <>
+          <Text>input: {input}</Text>
+          <Text>currenetOperator: {currentOperator}</Text>
+          <Text>result: {result}</Text>
+          <Text>tempinput: {tempInput}</Text>
+          <Text>tempOperator: {tempOperator}</Text>
+        </>
+      )} */}
 
       {/* 결과 */}
       <InputContainer>
